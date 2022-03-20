@@ -10,25 +10,25 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Resource.belongsToMany(models.rol,{through: models.rol_resource, foreignKey:"id_resource" })
+      Resource.belongsToMany(models.rol, { through: models.rol_resource, foreignKey: "id_resource" })
     }
   }
   Resource.init({
     id: {
-      primaryKey:true,
-      autoIncrement:true,
-      type:DataTypes.INTEGER
+      primaryKey: true,
+      autoIncrement: true,
+      type: DataTypes.INTEGER
     },
     name: {
-      allowNull:false,
-      type:DataTypes.STRING(50)
+      allowNull: false,
+      type: DataTypes.STRING(50)
     }
   }, {
     sequelize,
-    underscored:true,
+    underscored: true,
     modelName: 'resource',
-    createdAt:false,
-    updatedAt:false
+    createdAt: false,
+    updatedAt: false
   });
   return Resource;
 };

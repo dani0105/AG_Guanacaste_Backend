@@ -10,45 +10,36 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      
+
     }
   }
   User.init({
     id: {
-      allowNull:false,
-      primaryKey:true,
-      autoIncrement:true,
-      type:DataTypes.INTEGER
+      allowNull: false,
+      primaryKey: true,
+      autoIncrement: true,
+      type: DataTypes.INTEGER
     },
     name: {
-      allowNull:false,
-      type:DataTypes.STRING(250),
-      validate: {
-        max:250,
-        notNull:{
-          msg:"Nombre vacío"
-        }
-      }
+      allowNull: false,
+      type: DataTypes.STRING(250)
     },
     email: {
-      allowNull:false,
-      type:DataTypes.STRING(250),
-      unique: true,
-      validate: {
-        isEmail:true
-      }
+      allowNull: false,
+      type: DataTypes.STRING(250),
+      unique: true
     },
     password: {
-      allowNull:false,
-      type:DataTypes.STRING(65),
+      allowNull: false,
+      type: DataTypes.STRING(65),
     },
-    is_active:{
-      defaultValue:true,
+    is_active: {
+      defaultValue: true,
       type: DataTypes.BOOLEAN
     }
   }, {
     sequelize,
-    underscored:true,
+    underscored: true,
     modelName: 'user',
   });
   return User;

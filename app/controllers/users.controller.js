@@ -1,5 +1,8 @@
+const HttpStatus = require('http-status-codes').StatusCodes;
 const Sequelize = require('sequelize');
-const model = require('../models').user;
+
+const User = require('../models').user;
+
 
 exports.create = (req, res, next) => {
   res.send("Correct");

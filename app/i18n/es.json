@@ -1,0 +1,10 @@
+{
+  "emailRequiredField": "El campo de correo es requerido",
+  "emailIsEmail": "EL correo no cumple con el formato",
+  "passwordRequiredField": "EL campo de contraseña es requerido",
+  "passwordMinLength": "La contraseña debe ser mayor a 8 caracteres",
+  "emailIsUnique": "El correo ya esta en uso",
+  "invalidCredentials": "Contraseña or correo invalido",
+  "invalidAccessToken": "Token invalido!",
+  "invalidPermission": "No tienes permisos"
+}

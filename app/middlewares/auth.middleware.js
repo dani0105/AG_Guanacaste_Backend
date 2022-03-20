@@ -1,6 +1,7 @@
 const HttpStatus = require('http-status-codes').StatusCodes;
-const model = require('../models').rol_resource;
 const createError = require("http-errors");
+
+const model = require('../models').rol_resource;
 
 module.exports = (req, res, next) => {
   if (req.user) {
@@ -22,9 +23,19 @@ module.exports = (req, res, next) => {
           return next()
         }
       }
-      next(createError(HttpStatus.FORBIDDEN),"Access token invalid!");
+      return res.status(HttpStatus.FORBIDDEN).json({
+        success: true,
+        error: {
+          message: req.polyglot.t('invalidPermission')
+        }
+      })
     });
   } else {
-    next(createError(HttpStatus.BAD_REQUEST),"Invalid token");
+    return res.status(HttpStatus.FORBIDDEN).json({
+      success: true,
+      error: {
+        message: req.polyglot.t('invalidAccessToken')
+      }
+    })
   }
 }

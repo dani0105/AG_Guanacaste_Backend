@@ -1,5 +1,5 @@
-const controller = require('../controllers/touristicAreasController');
-const authMiddleware = require("../middlewares/authMiddleware");
+const controller = require('../controllers/touristicAreas.controller');
+const authMiddleware = require("../middlewares/auth.middleware");
 
 let express = require('express');
 let router = express.Router();

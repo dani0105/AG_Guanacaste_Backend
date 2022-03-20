@@ -1,5 +1,8 @@
+const HttpStatus = require('http-status-codes').StatusCodes;
 const Sequelize = require('sequelize');
-const model = require('../models').user;
+
+const TouristicArea = require('../models').touristic_area;
+
 
 exports.create = (req, res, next) => {
   res.send("Correct");

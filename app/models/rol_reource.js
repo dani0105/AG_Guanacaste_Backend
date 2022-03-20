@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     update: DataTypes.BOOLEAN,
   }, {
     sequelize,
-    underscored:true,
+    underscored: true,
     modelName: 'rol_resource',
   });
   return Rol_Resource;

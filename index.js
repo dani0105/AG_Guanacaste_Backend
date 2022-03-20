@@ -3,11 +3,18 @@ require('dotenv').config();
 
 const express = require("express");
 const app = express();
-const db = require("./models");
-const routes = require('./routes');
-const accessTokenMiddleware = require("./middlewares/accessTokenMiddleware");
-const errorHandlerMiddleware = require("./middlewares/errorHandlerMiddleware");
-const errorHandler = require("./errors/errorhandler");
+const db = require("./app/models");
+const routes = require('./app/routes');
+
+// Middlewares
+const accessTokenMiddleware = require("./app/middlewares/accessToken.middleware");
+const errorHandlerMiddleware = require("./app/middlewares/errorHandler.middleware");
+const polyglotMiddleware = require("./app/middlewares/polyglot.middleware");
+const createLocaleMiddleware = require('express-locale');
+
+//Errors
+const errorHandler = require("./app/errors/handler");
+const InternalError = require("./app/errors/internal.error");
 
 //sync database
 db.sequelize.sync({
@@ -21,6 +28,12 @@ app.use(express.json());
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
 
+// Get the user's locale, and set a default in case there's none
+app.use(createLocaleMiddleware({
+  "priority": ["accept-language", "default"],
+  "default": "en_US"
+}))
+
 // fix cors error
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", req.headers.origin); //change this 
@@ -29,6 +42,9 @@ app.use((req, res, next) => {
   res.header("Access-Control-Allow-Credentials", "true");
   next();
 });
+
+// handle localization
+app.use(polyglotMiddleware);
 
 // add routes
 app.use(accessTokenMiddleware, routes);
@@ -46,11 +62,11 @@ app.listen(PORT, () => {
 
 // get the unhandled rejection and throw it to another fallback handler we already have.
 process.on('unhandledRejection', (reason, promise) => {
-  throw reason;
+  throw new InternalError('UnHandledRejection',reason.message);
 });
 
-process.on('uncaughtException', (error) => {
-  errorHandler.handleError(error);
+process.on('uncaughtException', async (error) => {
+  await errorHandler.handleError(error);
   if (!errorHandler.isTrustedError(error)) {
     process.exit(1);
   }

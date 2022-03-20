@@ -1,0 +1,10 @@
+{
+  "emailRequiredField": "Email is required",
+  "emailIsEmail": "Email bad format",
+  "passwordRequiredField": "Password is required",
+  "passwordMinLength": "Password must be min 8 characters",
+  "emailIsUnique": "Email has already been used",
+  "invalidCredentials": "Password o email invalid",
+  "invalidAccessToken": "Access token invalid!",
+  "invalidPermission": "You don't have permission"
+}

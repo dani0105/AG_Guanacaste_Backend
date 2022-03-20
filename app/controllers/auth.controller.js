@@ -1,13 +1,14 @@
-const Sequelize = require('sequelize');
 const HttpStatus = require('http-status-codes').StatusCodes;
-const createError = require("http-errors");
-const model = require('../models').user;
-const TOKEN = require('../config/config').token;
-const crypto = require('crypto');
+const Sequelize = require('sequelize');
 const JWT = require('jsonwebtoken');
+const crypto = require('crypto');
+
+const User = require('../models').user;
+const Rol = require('../models').rol;
+const TOKEN = require('../config/config').token;
 
 exports.login = async (req, res, next) => {
-  const user = await model.findOne({
+  const user = User.findOne({
     where: {
       email: req.body.email,
       is_active: true
@@ -19,8 +20,8 @@ exports.login = async (req, res, next) => {
     let password = hash.update(req.body.password).digest('hex');
 
     if (password.localeCompare(user.password) == 0) {
-      //generate acces_token
 
+      //generate acces_token
       const access_token = JWT.sign(
         {
           id: user.id,
@@ -41,41 +42,59 @@ exports.login = async (req, res, next) => {
           user: user
         }
 
-      })
-    }
+      });
 
+    }
   }
 
-  next(createError(HttpStatus.OK, "Contraseña or correo invalido"))
+  res.status(HttpStatus.OK).json({
+    success: false,
+    error: {
+      message: req.polyglot.t("invalidCredentials")
+    }
+  });
 }
 
 exports.register = async (req, res, next) => {
 
-  let another = await model.findOne({
+  let another = await User.findOne({
     where: {
       email: req.body.email
     }
   });
+
   if (!another) {
     let hash = crypto.createHash("sha256");
     let password = hash.update(req.body.password).digest('hex');
 
-    const newUser = model.build({
+    const [rol, created] = await Rol.findOrCreate({
+      where: {
+        name: 'User'
+      }
+    });
+
+    const newUser = User.build({
       name: req.body.name,
       email: req.body.email,
-      password: password
+      password: password,
+      id_rol: rol.id
     });
-    
+
     newUser.save().then(user => {
       res.status(HttpStatus.OK).json({
         success: true
       });
     }).catch(error => {
-      console.log(error);
       next(error)
     });
-  }else{
-    next(createError(HttpStatus.BAD_REQUEST,"Correo en uso"))
+
+  } else {
+    res.status(HttpStatus.BAD_REQUEST).json({
+      success: false,
+      error: {
+        message: req.polyglot.t("emailIsUnique")
+      }
+    })
   }
 
 }
