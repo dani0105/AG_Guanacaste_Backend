@@ -1,0 +1,8 @@
+{
+  "exists": "El campo %{param} es requerido",
+  "isNumeric": "%{param} debe ser un numero",
+  "isEmail": "El %{param} no cumple con el formato",
+  "isLengthMin": "%{param} no cumple con el minimo",
+  "isLengthMax": "El %{param} excede el máximo",
+  "isUnique": "El %{param} ya esta en uso"
+}

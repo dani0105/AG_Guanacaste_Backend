@@ -4,14 +4,17 @@ const fromEntries = require('object.fromentries');
 
 translateMessages = (errObj, req) => {
   // Convert the errObj to an Array
-  const errArr = Object.entries(errObj)
-  // only get the first error
+  const error = Object.entries(errObj)[0];
+
+  let paramName = req.polyglot.t(`param.${error[0]}`);
+  let message = req.polyglot.t(`validation.${error[1].msg}`, { param: paramName });
+
   return {
-    success:false,
-    error:{
-      message:req.polyglot.t(errArr[0][1].msg)
+    success: false,
+    error: {
+      message: message
     }
-  }
+  };
 }
 
 module.exports = (req, res, next) => {

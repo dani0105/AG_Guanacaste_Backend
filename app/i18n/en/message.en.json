@@ -1,0 +1,5 @@
+{
+  "invalidCredentials":"Credenciales invalidas",
+  "invalidAccessToken":"Token de acceso invalido",
+  "invalidPermission":"No tiene permisos para realizar esta acción"
+}

@@ -8,7 +8,7 @@ const Rol = require('../models').rol;
 const TOKEN = require('../config/config').token;
 
 exports.login = async (req, res, next) => {
-  const user = User.findOne({
+  const user = await User.findOne({
     where: {
       email: req.body.email,
       is_active: true
@@ -47,10 +47,10 @@ exports.login = async (req, res, next) => {
     }
   }
 
-  res.status(HttpStatus.OK).json({
+  return res.status(HttpStatus.OK).json({
     success: false,
     error: {
-      message: req.polyglot.t("invalidCredentials")
+      message: req.polyglot.t("message.invalidCredentials")
     }
   });
 }
@@ -89,10 +89,11 @@ exports.register = async (req, res, next) => {
     });
 
   } else {
-    res.status(HttpStatus.BAD_REQUEST).json({
+    let param = req.polyglot.t('param.email');
+    return res.status(HttpStatus.BAD_REQUEST).json({
       success: false,
       error: {
-        message: req.polyglot.t("emailIsUnique")
+        message: req.polyglot.t("validation.isUnique", { param: param })
       }
     })
   }

@@ -1,5 +1,5 @@
-const en = require('./en.json');
-const es = require('./es.json');
+const en = require('./en');
+const es = require('./es');
 
 module.exports = {
   en: en,

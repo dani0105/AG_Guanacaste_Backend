@@ -26,7 +26,7 @@ module.exports = (req, res, next) => {
       return res.status(HttpStatus.FORBIDDEN).json({
         success: true,
         error: {
-          message: req.polyglot.t('invalidPermission')
+          message: req.polyglot.t('message.invalidPermission')
         }
       })
     });
@@ -34,7 +34,7 @@ module.exports = (req, res, next) => {
     return res.status(HttpStatus.FORBIDDEN).json({
       success: true,
       error: {
-        message: req.polyglot.t('invalidAccessToken')
+        message: req.polyglot.t('message.invalidAccessToken')
       }
     })
   }

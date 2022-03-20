@@ -13,7 +13,7 @@ module.exports = (req, res, next) => {
         return res.status(HttpStatus.FORBIDDEN).json({
           success:false,
           error:{
-            message: req.polyglot.t('invalidAccessToken')
+            message: req.polyglot.t('message.invalidAccessToken')
           }
         })
       }

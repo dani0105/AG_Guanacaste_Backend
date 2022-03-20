@@ -1,0 +1,10 @@
+{
+  "name": "Nombre",
+  "email": "Correo",
+  "password": "Contraseña",
+  "geom": "Geo Punto",
+  "description": "Descripción",
+  "page": "Página",
+  "size":"Tamaño de página",
+  "id":"Identificador"
+}
