@@ -14,13 +14,31 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Rol_Resource.init({
-    create: DataTypes.BOOLEAN,
-    read: DataTypes.BOOLEAN,
-    delete: DataTypes.BOOLEAN,
-    update: DataTypes.BOOLEAN,
+    create: {
+      allowNull: false,
+      defaultValue: false,
+      type: DataTypes.BOOLEAN
+    },
+    read: {
+      allowNull: false,
+      defaultValue: false,
+      type: DataTypes.BOOLEAN
+    },
+    delete: {
+      allowNull: false,
+      defaultValue: false,
+      type: DataTypes.BOOLEAN
+    },
+    update: {
+      allowNull: false,
+      defaultValue: false,
+      type: DataTypes.BOOLEAN
+    },
   }, {
     sequelize,
     underscored: true,
+    createdAt: false,
+    updatedAt: false,
     modelName: 'rol_resource',
   });
   return Rol_Resource;
