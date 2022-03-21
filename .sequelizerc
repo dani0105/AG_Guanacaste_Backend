@@ -2,7 +2,7 @@ require('dotenv').config();
 var path = require('path');
 
 module.exports = {
-  'url': process.env.DB_URL,
+  'url': process.env.DARABASE_URL,
   'migrations-path': path.resolve('app', 'migrations'),
   'models-path': path.resolve('app', 'models'),
   'seeders-path': path.resolve('app', 'seeders'),
