@@ -2,8 +2,14 @@ const HttpStatus = require('http-status-codes').StatusCodes;
 const createError = require("http-errors");
 
 const model = require('../models').rol_resource;
+const enviroment = require('../config/config').enviroment;
 
 module.exports = (req, res, next) => {
+
+  if(enviroment == 'development'){
+    return next();
+  }
+
   if (req.user) {
     model.findOne({
       where: {
@@ -24,7 +30,7 @@ module.exports = (req, res, next) => {
         }
       }
       return res.status(HttpStatus.FORBIDDEN).json({
-        success: true,
+        success: false,
         error: {
           message: req.polyglot.t('message.invalidPermission')
         }
@@ -32,7 +38,7 @@ module.exports = (req, res, next) => {
     });
   } else {
     return res.status(HttpStatus.FORBIDDEN).json({
-      success: true,
+      success: false,
       error: {
         message: req.polyglot.t('message.invalidAccessToken')
       }

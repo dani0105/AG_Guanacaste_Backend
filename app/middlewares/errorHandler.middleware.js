@@ -2,16 +2,17 @@ const HttpStatus = require('http-status-codes').StatusCodes;
 const errorHandler = require('../errors/handler');
 
 module.exports = async (err, req, res, next) => {
-
-  //internal error
+  
   if (!errorHandler.isTrustedError(err)) { 
     next(err);
   }
   
   await errorHandler.handleError(err);
   
-  return res.status(error.httpCode).send({
+  return res.status(err.httpCode).send({
     success:false,
-    message: error.message
+    error:{
+      message: err.message
+    }
   });
 }
