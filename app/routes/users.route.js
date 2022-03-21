@@ -1,15 +1,19 @@
+const validatorMiddleware = require('../middlewares/validator.middleware');
 const controller = require('../controllers/users.controller');
-let express = require('express');
-let router = express.Router();
+const validator = require('../validators/user.validator');
 
-router.post('', controller.create);
+const express = require('express');
+const router = express.Router();
 
-router.put('/:id', controller.update);
-
-router.get('', controller.list);
-
-router.get('/:id', controller.find);
-
-router.delete('/:id', controller.delete);
+// create
+router.post('', validator.create, validatorMiddleware, controller.create);
+// update
+router.put('/:id', validator.update, validatorMiddleware, controller.update);
+// get list
+router.get('', validator.list, validatorMiddleware, controller.list);
+// find
+router.get('/:id', validator.find, validatorMiddleware, controller.find);
+// delete
+router.delete('/:id', validator.delete, validatorMiddleware, controller.delete);
 
 module.exports = router;
