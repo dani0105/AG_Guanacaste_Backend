@@ -18,7 +18,7 @@ const InternalError = require("./app/errors/internal.error");
 
 //sync database
 db.sequelize.sync({
-  force: true,
+  force: false,
   logging: false
 });
 
