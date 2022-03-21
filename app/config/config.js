@@ -1,12 +1,15 @@
 module.exports = {
   database: {
-    uri: process.env.DB_URL,
-    options: {
-      dialectOptions:{
-        ssl:{
-          require:true,
-          rejectUnauthorized:false
-        }
+    database: process.env.DB_DATABASE,
+    username: process.env.DB_USERNAME,
+    password: process.env.DB_PASSWORD,
+    host: process.env.localhost,
+    port: process.env.DB_PORT,
+    dialect: process.env.DB_DIALECT,
+    dialectOptions: {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false
       }
     },
   },
