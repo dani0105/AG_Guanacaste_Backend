@@ -1,10 +1,13 @@
 {
-  "name": "Nombre",
-  "email": "Correo",
-  "password": "Contraseña",
-  "geom": "Geo Punto",
-  "description": "Descripción",
-  "page": "Página",
-  "size":"Tamaño de página",
-  "id":"Identificador"
+  "name": "name",
+  "email": "Email",
+  "password": "Password",
+  "geom": "Geo Point",
+  "description": "Description",
+  "page": "Page",
+  "size":"Page size",
+  "id":"ID",
+  "id_type_tourist_area":"Type of tourist area",
+  "filter":"Filter",
+  "id_rol":"Rol"
 }

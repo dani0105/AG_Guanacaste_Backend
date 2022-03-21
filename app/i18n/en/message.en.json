@@ -1,5 +1,8 @@
 {
-  "invalidCredentials":"Credenciales invalidas",
-  "invalidAccessToken":"Token de acceso invalido",
-  "invalidPermission":"No tiene permisos para realizar esta acción"
+  "invalidCredentials": "Invalid credentials",
+  "invalidAccessToken": "Invalid access token",
+  "invalidPermission": "You do not have permissions to perform this action",
+  "creationError": "Unable to create record",
+  "deletingError": "Unable to delete record",
+  "updatingError": "Unable to update record"
 }

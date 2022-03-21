@@ -4,5 +4,8 @@
   "isEmail": "El %{param} no cumple con el formato",
   "isLengthMin": "%{param} no cumple con el minimo",
   "isLengthMax": "El %{param} excede el máximo",
-  "isUnique": "El %{param} ya esta en uso"
+  "isUnique": "El %{param} ya esta en uso",
+  "isGeom": "%{param} invalido",
+  "notFound": "No se encontro el %{param}",
+  "isString": "%{param} debe ser texto"
 }

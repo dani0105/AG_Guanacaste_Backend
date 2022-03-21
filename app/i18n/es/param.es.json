@@ -6,5 +6,8 @@
   "description": "Descripción",
   "page": "Página",
   "size":"Tamaño de página",
-  "id":"Identificador"
+  "id":"Identificador",
+  "id_type_tourist_area":"Tipo de area turistica",
+  "filter":"Filtro",
+  "id_rol":"Rol"
 }
