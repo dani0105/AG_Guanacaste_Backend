@@ -7,7 +7,7 @@ module.exports = {
       host: process.env.DB_HOST,
       dialect: process.env.DB_DIALECT
     },
-    uri: process.env.DATABASE_URL,
+    uri: process.env.DB_URL,
     logging: process.env.DB_LOGGING || false
   },
   token: {
