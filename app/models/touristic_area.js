@@ -10,7 +10,13 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Touristic_area.belongsTo(models.type_tourist_area, { foreignKey: "id_types_tourist_area" })
+
+      Touristic_area.belongsTo(models.type_tourist_area, {
+        foreignKey: {
+          name: 'id_type_tourist_area',
+          allowNull: false
+        }
+      })
     }
   }
   Touristic_area.init({
@@ -30,6 +36,11 @@ module.exports = (sequelize, DataTypes) => {
     },
     geom: {
       type: DataTypes.GEOMETRY("POINT")
+    },
+    is_active:{
+      allowNull:false,
+      defaultValue:true,
+      type:DataTypes.BOOLEAN
     }
   }, {
     sequelize,

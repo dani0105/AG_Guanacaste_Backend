@@ -1,17 +1,20 @@
-const controller = require('../controllers/touristicAreas.controller');
+const validatorMiddleware = require('../middlewares/validator.middleware');
 const authMiddleware = require("../middlewares/auth.middleware");
+const controller = require('../controllers/touristicAreas.controller');
+const validator = require('../validators/touristicArea.validator');
 
-let express = require('express');
-let router = express.Router();
+const express = require('express');
+const router = express.Router();
 
-router.post('', authMiddleware, controller.create);
-
-router.put('/:id', authMiddleware, controller.update);
-
-router.get('', controller.list);
-
-router.get('/:id', controller.find);
-
-router.delete('/:id', authMiddleware, controller.delete);
+// create
+router.post('', authMiddleware, validator.create, validatorMiddleware, controller.create);
+// update
+router.put('/:id', authMiddleware, validator.update, validatorMiddleware, controller.update);
+// get list
+router.get('', validator.list, validatorMiddleware, controller.list);
+// find
+router.get('/:id', validator.find, validatorMiddleware, controller.find);
+// delete
+router.delete('/:id', authMiddleware, validator.delete, validatorMiddleware, controller.delete);
 
 module.exports = router;
