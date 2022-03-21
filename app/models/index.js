@@ -6,7 +6,7 @@ const Sequelize = require('sequelize');
 const basename = path.basename(__filename);
 const config = require('../config/config').database;
 const db = {};
-let sequelize = new Sequelize(config.uri || config.credentials, { logging: config.logging });
+let sequelize = new Sequelize(config.uri || config.credentials, config.options);
 
 fs
   .readdirSync(__dirname)
