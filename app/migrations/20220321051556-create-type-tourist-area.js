@@ -1,32 +1,34 @@
 'use strict';
+
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('types_tourist_areas', {
+    await queryInterface.createTable('type_tourist_areas', {
       id: {
         allowNull: false,
         primaryKey: true,
         autoIncrement: true,
-        type: DataTypes.INTEGER
+        type: Sequelize.INTEGER
       },
       name: {
         allowNull: false,
-        type: DataTypes.STRING(50)
+        type: Sequelize.STRING(50)
       },
       is_active: {
         defaultValue: true,
-        type: DataTypes.BOOLEAN
+        type: Sequelize.BOOLEAN
       },
-      createdAt: {
+      created_at: {
         allowNull: false,
         type: Sequelize.DATE
       },
-      updatedAt: {
+      updated_at: {
         allowNull: false,
         type: Sequelize.DATE
-      }
+      },
     });
   },
+
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('types_tourist_areas');
+    await queryInterface.dropTable('type_tourist_areas');
   }
 };

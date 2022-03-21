@@ -1,4 +1,5 @@
 'use strict';
+
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('rols', {
@@ -6,27 +7,28 @@ module.exports = {
         allowNull: false,
         primaryKey: true,
         autoIncrement: true,
-        type: DataTypes.INTEGER
+        type: Sequelize.INTEGER
       },
       name: {
         allowNull: false,
-        type: DataTypes.STRING
+        type: Sequelize.STRING
       },
       is_active: {
         allowNull: false,
         defaultValue: true,
-        type: DataTypes.BOOLEAN
+        type: Sequelize.BOOLEAN
       },
-      createdAt: {
+      created_at: {
         allowNull: false,
         type: Sequelize.DATE
       },
-      updatedAt: {
+      updated_at: {
         allowNull: false,
         type: Sequelize.DATE
-      }
+      },
     });
   },
+
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('rols');
   }
