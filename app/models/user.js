@@ -1,4 +1,5 @@
 'use strict';
+const { user } = require('pg/lib/defaults');
 const {
   Model
 } = require('sequelize');
@@ -10,7 +11,12 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-
+      User.belongsTo(models.rol, {
+        foreignKey: {
+          name: 'id_rol',
+          allowNull: false
+        }
+      });
     }
   }
   User.init({
