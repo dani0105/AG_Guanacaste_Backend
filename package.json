@@ -4,7 +4,7 @@
   "description": "Repositorio de backend para el proyecto AG_Guanacaste",
   "main": "index.js",
   "scripts": {
-    "start": "node .",
+    "start": "nodemon .",
     "startup": "sequelize db:create && sequelize db:migrate && sequelize db:seed:all"
   },
   "repository": {
