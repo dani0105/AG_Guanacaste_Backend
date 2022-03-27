@@ -12,6 +12,7 @@ module.exports = {
         rejectUnauthorized: false
       }
     },
+    logging:false
   },
   token: {
     secret: process.env.TOKEN_SCRET,

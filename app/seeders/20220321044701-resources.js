@@ -6,7 +6,8 @@ module.exports = {
     // Create Basic Resources
     return queryInterface.bulkInsert('resources', [
       { name: "Touristic Areas" }, // id: 1
-      { name: "Users" } // id: 2
+      { name: "Users" }, // id: 2
+      { name: "Roles" } // id: 2
     ]);
 
 

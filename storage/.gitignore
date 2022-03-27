@@ -1,0 +1,6 @@
+*
+!public/
+!private/
+!logs/
+!.gitignore
+!temp/

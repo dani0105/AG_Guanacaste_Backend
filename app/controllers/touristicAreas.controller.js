@@ -1,47 +1,117 @@
 const HttpStatus = require('http-status-codes').StatusCodes;
 const Sequelize = require('sequelize');
 const BaseError = require('../errors/base.error');
+const fs = require('fs')
 
 const TouristicArea = require('../models').touristic_area;
+const TypeTouristArea = require('../models').type_tourist_area;
+const TouristicAreaImage = require('../models').touristic_area_image;
 
 
-exports.create = async (req, res, next) => {
+createTouristicAreaImage = async (id_touristic_area, image) => {
+  let tempPath = image.url;
+  let publicPath = `storage/public/${image.filename}`;
 
-  const newTouristicArea = TouristicArea.build(req.body);
-
-  return newTouristicArea.save().then(data => {
-    return res.status(HttpStatus.OK).json({
-      success: true,
-      data: data
-    });
-  }).catch(error => {
-    next(new BaseError('Invalid', HttpStatus.BAD_REQUEST, req.polyglot.t("message.creationError"), true))
+  //create image
+  let result = await TouristicAreaImage.create({
+    url: publicPath,
+    name: image.name,
+    id_touristic_area: id_touristic_area
   });
 
+  //move image
+
+  fs.renameSync(tempPath, publicPath);
+
+  return result;
 }
 
-exports.update = (req, res, next) => {
-  TouristicArea.update(req.body, {
-    where: {
-      id: req.params.id
+exports.create = async (req, res, next) => {
+  try {
+    const newTouristicArea = TouristicArea.build({
+      name: req.body.name,
+      id_type_tourist_area: req.body.id_type_tourist_area,
+      description: req.body.description,
+      geom: req.body.geom
+    });
+    await newTouristicArea.save();
+
+    let objectResult = newTouristicArea.toJSON();
+    objectResult.images = [];
+    for (let i = 0; i < req.body.images.length; i++) {
+      const image = req.body.images[i];
+
+      if (!image.is_active) {
+        continue;
+      }
+
+      let result = createTouristicAreaImage(newTouristicArea.id, image);
+
+      objectResult.images.push(result);
     }
-  }).then(result => {
+
     res.status(HttpStatus.OK).json({
+      success: true,
+      data: objectResult
+    })
+  } catch (error) {
+    console.log(error);
+    next(new BaseError('Invalid', HttpStatus.BAD_REQUEST, req.polyglot.t("message.creationError"), true))
+  }
+}
+
+exports.update = async (req, res, next) => {
+  try {
+    await TouristicArea.update({
+      name: req.body.name,
+      id_type_tourist_area: req.body.id_type_tourist_area,
+      description: req.body.description,
+      geom: req.body.geom
+    }, {
+      where: {
+        id: req.params.id
+      }
+    });
+
+    for (let i = 0; i < req.body.images.length; i++) {
+      const image = req.body.images[i];
+
+      if (image.is_new) {
+        let result = await createTouristicAreaImage(req.params.id, image);
+      } else {
+        let result = await TouristicAreaImage.update({
+          is_active: image.is_active
+        }, {
+          where: {
+            id_touristic_area: req.params.id,
+            url: image.url
+          }
+        });
+      }
+    }
+
+    return res.status(HttpStatus.OK).json({
       success: true
     })
-  }).catch(error => {
+  } catch (error) {
+    console.log(error);
     next(new BaseError('Invalid', HttpStatus.BAD_REQUEST, req.polyglot.t("message.creationError"), true))
-  })
+
+  }
 }
 
 exports.list = async (req, res, next) => {
+  let where = { is_active: true };
+
+  if (req.query.filter) {
+    where.name = {
+      [Sequelize.Op.iLike]: `%${req.query.filter}%`
+    };
+  }
+
   const { count, rows } = await TouristicArea.findAndCountAll({
-    where: {
-      name: {
-        [Sequelize.Op.iLike]: `%${req.query.filter}%`
-      },
-      is_active:true
-    },
+    include: [TypeTouristArea],
+    where: where,
     offset: req.query.page,
     limit: req.query.size
   });
@@ -58,13 +128,20 @@ exports.list = async (req, res, next) => {
 }
 
 exports.find = async (req, res, next) => {
-  const result  = await TouristicArea.findOne({
+  const result = await TouristicArea.findOne({
+    include: {
+      model: TouristicAreaImage,
+      all: true,
+      required: false,
+      where: {
+        is_active: true
+      }
+    },
     where: {
       id: req.params.id,
-      is_active:true
+      is_active: true
     }
   });
-  
   res.status(HttpStatus.OK).json({
     success: true,
     data: result
@@ -72,7 +149,7 @@ exports.find = async (req, res, next) => {
 }
 
 exports.delete = async (req, res, next) => {
-  TouristicArea.update({is_active:false}, {
+  TouristicArea.update({ is_active: false }, {
     where: {
       id: req.params.id
     }

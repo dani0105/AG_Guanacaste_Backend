@@ -3,40 +3,41 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class TypeTouristAreas extends Model {
+  class TouristicAreaImage extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      TypeTouristAreas.hasMany(models.touristic_area, {
+      TouristicAreaImage.belongsTo(models.touristic_area,{
         foreignKey: {
-          name: "id_type_tourist_area",
+          name: 'id_touristic_area',
           allowNull: false
         }
-      });
+      })
     }
   }
-  TypeTouristAreas.init({
-    id: {
+  TouristicAreaImage.init({
+    url: {
       allowNull: false,
-      primaryKey: true,
-      autoIncrement: true,
-      type: DataTypes.INTEGER
+      type: DataTypes.STRING(500)
     },
     name: {
       allowNull: false,
-      type: DataTypes.STRING(50)
+      type: DataTypes.STRING(500)
     },
     is_active: {
+      allowNull: false,
       defaultValue: true,
       type: DataTypes.BOOLEAN
     }
   }, {
     sequelize,
     underscored: true,
-    modelName: 'type_tourist_area',
+
+    modelName: 'touristic_area_image',
   });
-  return TypeTouristAreas;
+
+  return TouristicAreaImage;
 };

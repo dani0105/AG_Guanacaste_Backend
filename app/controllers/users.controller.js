@@ -36,14 +36,17 @@ exports.update = (req, res, next) => {
 }
 
 exports.list = async (req, res, next) => {
+  let where = { is_active: true };
+  
+  if (req.query.filter) {
+    where.name = {
+      [Sequelize.Op.iLike]: `%${req.query.filter}%`
+    };
+  }
+
   const { count, rows } = await User.findAndCountAll({
     include: Rol,
-    where: {
-      name: {
-        [Sequelize.Op.iLike]: `%${req.query.filter}%`
-      },
-      is_active: true
-    },
+    where: where,
     offset: req.query.page,
     limit: req.query.size
   });
@@ -52,6 +55,7 @@ exports.list = async (req, res, next) => {
     success: true,
     data: rows,
     metadata: {
+      filter: req.query.filter,
       page: req.query.page,
       size: req.query.size,
       count: count

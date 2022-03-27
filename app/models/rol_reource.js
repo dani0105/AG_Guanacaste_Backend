@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Rol_Resource extends Model {
+  class RolResource extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   }
-  Rol_Resource.init({
+  RolResource.init({
     create: {
       allowNull: false,
       defaultValue: false,
@@ -41,5 +41,5 @@ module.exports = (sequelize, DataTypes) => {
     updatedAt: false,
     modelName: 'rol_resource',
   });
-  return Rol_Resource;
+  return RolResource;
 };

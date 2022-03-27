@@ -33,6 +33,9 @@ exports.create = [
     .exists().withMessage('exists')
     .isNumeric().toInt().withMessage('isNumeric')
     .custom(validateIdTypeTouristArea).withMessage('notFound'),
+  check('images')
+    .exists().optional({ checkFalsy: true }).withMessage('exists')
+    .isArray().toArray().withMessage('isArray')
 ]
 
 exports.update = [
@@ -40,11 +43,17 @@ exports.update = [
     .exists().withMessage('exists')
     .isNumeric().toInt().withMessage('isNumeric'),
   check('name')
+    .exists().optional({ checkFalsy: true }).withMessage('exists')
     .isLength({ max: 300 }).withMessage('isLengthMax'),
   check('description')
+    .exists().optional({ checkFalsy: true }).withMessage('exists')
     .isLength({ max: 1024 }).withMessage('isLengthMax'),
   check('id_type_tourist_area')
+    .exists().optional({ checkFalsy: true }).withMessage('exists')
     .isNumeric().toInt().withMessage('isNumeric'),
+  check('images')
+    .exists().optional({ checkFalsy: true }).withMessage('exists')
+    .isArray().toArray().withMessage('isArray')
 ]
 
 exports.list = [
@@ -55,6 +64,7 @@ exports.list = [
     .exists().withMessage('exists')
     .isNumeric().toInt().withMessage('isNumeric'),
   check('filter')
+    .exists().optional({ checkFalsy: true }).withMessage('exists')
     .isString().withMessage("isString")
 ]
 

@@ -21,11 +21,11 @@ module.exports = (req, res, next) => {
       if (result) {
         if (req.method == "POST" && result.create) {
           return next()
-        } else if (req.method == "GET" && result.create) {
+        } else if (req.method == "GET" && result.read) {
           return next()
-        } else if (req.method == "PUT" && result.create) {
+        } else if (req.method == "PUT" && result.update) {
           return next()
-        } else if (req.method == "DELETE" && result.create) {
+        } else if (req.method == "DELETE" && result.delete) {
           return next()
         }
       }

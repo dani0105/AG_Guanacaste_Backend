@@ -4,5 +4,6 @@
   "invalidPermission": "You do not have permissions to perform this action",
   "creationError": "Unable to create record",
   "deletingError": "Unable to delete record",
-  "updatingError": "Unable to update record"
+  "updatingError": "Unable to update record",
+  "fileUpload": "Unable to upload image"
 }

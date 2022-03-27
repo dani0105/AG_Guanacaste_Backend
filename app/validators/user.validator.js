@@ -1,4 +1,5 @@
 const check = require('express-validator').check;
+const Sequelize = require('sequelize');
 const Rol = require('../models').rol;
 const User = require('../models').user;
 
@@ -15,11 +16,13 @@ validateIdRol = (value) => {
 }
 
 
-validUniqueEmail = (value) => {
+validUniqueEmail = (value, { req }) => {
+  let where = { email: value };
+  if (req.params.id) {
+    where.id = { [Sequelize.Op.ne]: req.params.id }
+  }
   return User.findOne({
-    where: {
-      email: value
-    }
+    where: where
   }).then(result => {
     if (result) {
       return Promise.reject();
@@ -50,17 +53,17 @@ exports.update = [
     .exists().withMessage('exists')
     .isNumeric().toInt().withMessage('isNumeric'),
   check('name')
-    .exists().withMessage('exists')
+    .exists().optional({ checkFalsy: true }).withMessage('exists')
     .isLength({ max: 250 }).withMessage('isLengthMax'),
   check('email')
-    .exists().withMessage('exists')
+    .exists().optional({ checkFalsy: true }).withMessage('exists')
     .isEmail().normalizeEmail().withMessage('isEmail')
     .custom(validUniqueEmail).withMessage('isUnique'),
   check('password')
-    .exists().withMessage('exists')
+    .exists().optional({ checkFalsy: true }).withMessage('exists')
     .isLength({ min: 8 }).withMessage('isLengthMin'),
   check('id_rol')
-    .exists().withMessage('exists')
+    .exists().optional({ checkFalsy: true }).withMessage('exists')
     .isNumeric().toInt().withMessage('isNumeric')
     .custom(validateIdRol).withMessage('notFound'),
 ]
@@ -73,6 +76,7 @@ exports.list = [
     .exists().withMessage('exists')
     .isNumeric().toInt().withMessage('isNumeric'),
   check('filter')
+    .exists().optional({ checkFalsy: true }).withMessage('exists')
     .isString().withMessage("isString")
 ]
 

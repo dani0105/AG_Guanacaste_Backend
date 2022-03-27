@@ -5,6 +5,7 @@ const express = require("express");
 const app = express();
 const db = require("./app/models");
 const routes = require('./app/routes');
+const morgan = require('morgan');
 
 // Middlewares
 const accessTokenMiddleware = require("./app/middlewares/accessToken.middleware");
@@ -22,17 +23,19 @@ db.sequelize.sync({
   logging: false
 });
 
-// parse requests of content-type - application/json
-app.use(express.json());
-
-// parse requests of content-type - application/x-www-form-urlencoded
-app.use(express.urlencoded({ extended: true }));
+app.use(morgan('dev'));
 
 // Get the user's locale, and set a default in case there's none
 app.use(createLocaleMiddleware({
   "priority": ["accept-language", "default"],
   "default": "en_US"
 }))
+
+// parse requests of content-type - application/json
+app.use(express.json({ limit: '10mb' }));
+
+// parse requests of content-type - application/x-www-form-urlencoded
+app.use(express.urlencoded({ extended: true }));
 
 // fix cors error
 app.use((req, res, next) => {
@@ -48,6 +51,8 @@ app.use(polyglotMiddleware);
 
 // add routes
 app.use(accessTokenMiddleware, routes);
+app.use('/storage/public', express.static(__dirname + '/storage/public'));
+app.use('/storage/temp', express.static(__dirname + '/storage/temp'));
 
 //error handler
 app.use(errorHandlerMiddleware);
@@ -62,7 +67,7 @@ app.listen(PORT, () => {
 
 // get the unhandled rejection and throw it to another fallback handler we already have.
 process.on('unhandledRejection', (reason, promise) => {
-  throw new InternalError('UnHandledRejection',reason.message);
+  throw new InternalError('UnHandledRejection', reason.message);
 });
 
 process.on('uncaughtException', async (error) => {
