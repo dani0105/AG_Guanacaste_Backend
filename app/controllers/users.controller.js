@@ -1,6 +1,7 @@
 const HttpStatus = require('http-status-codes').StatusCodes;
 const Sequelize = require('sequelize');
 const BaseError = require('../errors/base.error');
+const crypto = require('crypto');
 
 const User = require('../models').user;
 const Rol = require('../models').rol;
@@ -8,9 +9,13 @@ const Rol = require('../models').rol;
 
 exports.create = async (req, res, next) => {
 
+  let hash = crypto.createHash("sha256");
+  req.body.password = hash.update(req.body.password).digest('hex');
+
   const newUser = User.build(req.body);
 
   return newUser.save().then(data => {
+    delete data.password;
     return res.status(HttpStatus.OK).json({
       success: true,
       data: data
@@ -22,6 +27,12 @@ exports.create = async (req, res, next) => {
 }
 
 exports.update = (req, res, next) => {
+
+  if(req.body.password){
+    let hash = crypto.createHash("sha256");
+    req.body.password = hash.update(req.body.password).digest('hex');
+  }
+
   User.update(req.body, {
     where: {
       id: req.params.id
