@@ -9,7 +9,7 @@ module.exports = (req, res, next) => {
   if(enviroment == 'development'){
     return next();
   }
-
+  
   if (req.user) {
     model.findOne({
       where: {

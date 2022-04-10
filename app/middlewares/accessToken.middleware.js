@@ -5,6 +5,9 @@ const TOKEN = require("../config/config").token;
 
 
 module.exports = (req, res, next) => {
+  if(req.method == 'OPTIONS'){
+    return res.status(HttpStatus.OK).send();
+  }
   const authHeader = req.headers.authorization;
   if (authHeader) {
     const token = authHeader.split(' ')[1];
