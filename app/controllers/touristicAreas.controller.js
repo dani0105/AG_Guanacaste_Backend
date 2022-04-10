@@ -6,6 +6,8 @@ const fs = require('fs')
 const TouristicArea = require('../models').touristic_area;
 const TypeTouristArea = require('../models').type_tourist_area;
 const TouristicAreaImage = require('../models').touristic_area_image;
+const TouristicAreaComment = require('../models').touristic_area_comment;
+const User = require('../models').user;
 
 
 createTouristicAreaImage = async (id_touristic_area, image) => {
@@ -112,7 +114,7 @@ exports.list = async (req, res, next) => {
   const { count, rows } = await TouristicArea.findAndCountAll({
     include: [TypeTouristArea],
     where: where,
-    offset: req.query.page,
+    offset: req.query.page * req.query.size,
     limit: req.query.size
   });
 
@@ -159,6 +161,42 @@ exports.delete = async (req, res, next) => {
     })
   }).catch(error => {
     next(new BaseError('Invalid', HttpStatus.BAD_REQUEST, req.polyglot.t("message.deletingError"), true))
+  })
+}
+
+exports.createComment = async (req, res, next) => {
+  TouristicAreaComment.create({
+    id_touristic_area: req.params.id_touristic_area,
+    id_user: req.body.id_user
+  }).then(result => {
+    res.status(HttpStatus.OK).json({
+      success: true
+    })
+  }).catch(error => {
+    next(new BaseError('Invalid', HttpStatus.BAD_REQUEST, req.polyglot.t("message.creationError"), true))
+  })
+}
+
+exports.listComment = async (req, res, next) => {
+  TouristicAreaComment.findAndCountAll({
+    include: [User],
+    where: {
+      is_active: true
+    },
+    offset: req.query.page * req.query.size,
+    limit: req.query.size
+  }).then(result => {
+    res.status(HttpStatus.OK).json({
+      success: true,
+      data: res.rows,
+      metadata: {
+        page: req.query.page,
+        size: req.query.size,
+        count: result.count,
+      }
+    })
+  }).catch(error => {
+    next(new BaseError('Invalid', HttpStatus.BAD_REQUEST, req.polyglot.t("message.creationError"), true))
   })
 }
 

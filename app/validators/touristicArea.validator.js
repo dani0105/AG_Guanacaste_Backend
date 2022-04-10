@@ -80,4 +80,28 @@ exports.delete = [
     .isNumeric().toInt().withMessage('isNumeric')
 ]
 
+exports.createComment = [
+  check('id_toueristic_area')
+    .exists().withMessage('exists')
+    .isNumeric().toInt().withMessage('isNumeric'),
+  check('id_user')
+    .exists().withMessage('exists')
+    .isNumeric().toInt().withMessage('isNumeric'),
+  check('comment')
+    .exists().withMessage('exists')
+    .isString().trim().withMessage('isString'),
+]
+
+exports.listComment = [
+  check('id_toueristic_area')
+    .exists().withMessage('exists')
+    .isNumeric().toInt().withMessage('isNumeric'),
+  check('page')
+    .exists().withMessage('exists')
+    .isNumeric().toInt().withMessage('isNumeric'),
+  check('size')
+    .exists().withMessage('exists')
+    .isNumeric().toInt().withMessage('isNumeric'),
+]
+
 module.exports
