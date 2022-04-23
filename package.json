@@ -5,7 +5,6 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon .",
-    "prestart": "sequelize db:migrate",
     "startup": "sequelize db:migrate && sequelize db:seed:all"
   },
   "repository": {
