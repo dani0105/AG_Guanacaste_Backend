@@ -7,7 +7,14 @@ const basename = path.basename(__filename);
 const config = require('../config/config').database;
 const db = {};
 
-let sequelize = new Sequelize(config.url,config.dialectOptions);
+let sequelize = new Sequelize(config.url, {
+  dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false
+    }
+  }
+});
 
 fs
   .readdirSync(__dirname)

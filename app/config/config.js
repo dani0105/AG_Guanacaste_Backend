@@ -1,12 +1,6 @@
 module.exports = {
   database: {
     url: process.env.DATABASE_URL,
-    dialectOptions: {
-      ssl: {
-        require: true,
-        rejectUnauthorized: false
-      }
-    },
   },
   token: {
     secret: process.env.TOKEN_SCRET,
