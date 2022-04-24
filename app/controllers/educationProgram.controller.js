@@ -118,6 +118,10 @@ exports.list = async (req, res, next) => {
     };
   }
 
+  if (req.query.id_education_program_type) {
+    where.id_education_program_type = req.query.id_education_program_type;
+  }
+
   const { count, rows } = await EducationProgram.findAndCountAll({
     include: [
       {

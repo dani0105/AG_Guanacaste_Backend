@@ -65,7 +65,10 @@ exports.list = [
     .isNumeric().toInt().withMessage('isNumeric'),
   check('filter')
     .exists().optional({ checkFalsy: true }).withMessage('exists')
-    .isString().withMessage("isString")
+    .isString().withMessage("isString"),
+  check('id_type_tourist_area')
+    .exists().optional({ checkFalsy: true }).withMessage('exists')
+    .isNumeric().toInt().withMessage("isNumeric"),
 ]
 
 exports.find = [

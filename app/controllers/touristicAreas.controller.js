@@ -103,12 +103,18 @@ exports.update = async (req, res, next) => {
 }
 
 exports.list = async (req, res, next) => {
-  let where = { is_active: true };
+  let where = {
+    is_active: true,
+  };
 
   if (req.query.filter) {
     where.name = {
       [Sequelize.Op.iLike]: `%${req.query.filter}%`
     };
+  }
+
+  if (req.query.id_type_tourist_area) {
+    where.id_type_tourist_area = req.query.id_type_tourist_area;
   }
 
   const { count, rows } = await TouristicArea.findAndCountAll({
@@ -197,10 +203,10 @@ exports.listComment = async (req, res, next) => {
   TouristicAreaComment.findAndCountAll({
     include: [{
       model: User,
-      attributes:['name', 'email', 'id'],
-      require:true
+      attributes: ['name', 'email', 'id'],
+      require: true
     }],
-    attributes:['id','comment', 'createdAt'],
+    attributes: ['id', 'comment', 'createdAt'],
     where: {
       is_active: true
     },

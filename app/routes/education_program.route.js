@@ -12,15 +12,15 @@ router.post('', resourceMiddleware("Education Programs"), authMiddleware, valida
 // update
 router.put('/:id', resourceMiddleware("Education Programs"), authMiddleware, validator.update, validatorMiddleware, controller.update);
 // get list
-router.get('', resourceMiddleware("Education Programs"), authMiddleware, validator.list, validatorMiddleware, controller.list);
+router.get('', validator.list, validatorMiddleware, controller.list);
 // find
-router.get('/:id', resourceMiddleware("Education Programs"), authMiddleware, validator.find, validatorMiddleware, controller.find);
+router.get('/:id', validator.find, validatorMiddleware, controller.find);
 // delete
 router.delete('/:id', resourceMiddleware("Education Programs"), authMiddleware, validator.delete, validatorMiddleware, controller.delete);
 
 //comments
 router.post('/:id_education_program/comments', resourceMiddleware("Comments"), authMiddleware, validator.createComment, validatorMiddleware, controller.createComment);
-router.get('/:id_education_program/comments', resourceMiddleware("Comments"), authMiddleware, validator.listComment, validatorMiddleware, controller.listComment);
+router.get('/:id_education_program/comments', validator.listComment, validatorMiddleware, controller.listComment);
 
 
 module.exports = router;

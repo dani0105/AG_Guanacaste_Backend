@@ -12,15 +12,15 @@ router.post('', resourceMiddleware("Activities"), authMiddleware, validator.crea
 // update
 router.put('/:id', resourceMiddleware("Activities"), authMiddleware, validator.update, validatorMiddleware, controller.update);
 // get list
-router.get('', resourceMiddleware("Activities"), authMiddleware, validator.list, validatorMiddleware, controller.list);
+router.get('', validator.list, validatorMiddleware, controller.list);
 // find
-router.get('/:id', resourceMiddleware("Activities"), authMiddleware, validator.find, validatorMiddleware, controller.find);
+router.get('/:id', validator.find, validatorMiddleware, controller.find);
 // delete
 router.delete('/:id', resourceMiddleware("Activities"), authMiddleware, validator.delete, validatorMiddleware, controller.delete);
 
 //comments
 router.post('/:id_activity/comments', resourceMiddleware("Comments"), authMiddleware, validator.createComment, validatorMiddleware, controller.createComment);
-router.get('/:id_activity/comments', resourceMiddleware("Comments"), authMiddleware, validator.listComment, validatorMiddleware, controller.listComment);
+router.get('/:id_activity/comments', validator.listComment, validatorMiddleware, controller.listComment);
 
 
 module.exports = router;

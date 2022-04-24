@@ -120,6 +120,18 @@ exports.list = async (req, res, next) => {
     };
   }
 
+  if (req.query.id_activity_type) {
+    where.id_activity_type = req.query.id_activity_type;
+  }
+
+  if (req.query.id_difficulty) {
+    where.id_difficulty = req.query.id_difficulty;
+  }
+
+  if (req.query.id_accessibility) {
+    where.id_accessibility = req.query.id_accessibility;
+  }
+
   const { count, rows } = await Activity.findAndCountAll({
     include: [
       {

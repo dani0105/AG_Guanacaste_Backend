@@ -99,7 +99,16 @@ exports.list = [
     .isNumeric().toInt().withMessage('isNumeric'),
   check('filter')
     .exists().optional({ checkFalsy: true }).withMessage('exists')
-    .isString().withMessage("isString")
+    .isString().withMessage("isString"),
+  check('id_activity_type')
+    .exists().optional({ checkFalsy: true }).withMessage('exists')
+    .isNumeric().toInt().withMessage("isNumeric"),
+  check('id_difficulty')
+    .exists().optional({ checkFalsy: true }).withMessage('exists')
+    .isNumeric().toInt().withMessage("isNumeric"),
+  check('id_accessibility')
+    .exists().optional({ checkFalsy: true }).withMessage('exists')
+    .isNumeric().toInt().withMessage("isNumeric"),
 ]
 
 exports.find = [
