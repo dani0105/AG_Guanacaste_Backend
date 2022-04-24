@@ -174,6 +174,7 @@ exports.delete = async (req, res, next) => {
 exports.createComment = async (req, res, next) => {
   EducationProgramComment.create({
     id_education_program: req.params.id_education_program,
+    comment: req.body.comment,
     id_user: req.body.id_user
   }).then(result => {
     res.status(HttpStatus.OK).json({
@@ -186,7 +187,12 @@ exports.createComment = async (req, res, next) => {
 
 exports.listComment = async (req, res, next) => {
   EducationProgramComment.findAndCountAll({
-    include: [User],
+    include: [{
+      model: User,
+      attributes:['name', 'email', 'id'],
+      require:true
+    }],
+    attributes:['id','comment', 'createdAt'],
     where: {
       is_active: true
     },
@@ -195,7 +201,7 @@ exports.listComment = async (req, res, next) => {
   }).then(result => {
     res.status(HttpStatus.OK).json({
       success: true,
-      data: res.rows,
+      data: result.rows,
       metadata: {
         page: req.query.page,
         size: req.query.size,

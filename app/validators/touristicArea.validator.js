@@ -81,7 +81,7 @@ exports.delete = [
 ]
 
 exports.createComment = [
-  check('id_toueristic_area')
+  check('id_touristic_area')
     .exists().withMessage('exists')
     .isNumeric().toInt().withMessage('isNumeric'),
   check('id_user')
@@ -93,7 +93,7 @@ exports.createComment = [
 ]
 
 exports.listComment = [
-  check('id_toueristic_area')
+  check('id_touristic_area')
     .exists().withMessage('exists')
     .isNumeric().toInt().withMessage('isNumeric'),
   check('page')
