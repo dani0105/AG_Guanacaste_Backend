@@ -92,7 +92,7 @@ exports.update = async (req, res, next) => {
           is_active: image.is_active
         }, {
           where: {
-            id_activity: req.params.id,
+            id_education_program: req.params.id,
             url: image.url
           }
         });
@@ -119,7 +119,18 @@ exports.list = async (req, res, next) => {
   }
 
   const { count, rows } = await EducationProgram.findAndCountAll({
-    include: [EducationProgramType],
+    include: [
+      {
+        model: EducationProgramType,
+        require: true,
+        where: { is_active: true }
+      },
+      {
+        model: EducationProgramImage,
+        require: true,
+        where: { is_active: true }
+      }
+    ],
     where: where,
     offset: req.query.page * req.query.size,
     limit: req.query.size
@@ -138,14 +149,18 @@ exports.list = async (req, res, next) => {
 
 exports.find = async (req, res, next) => {
   const result = await EducationProgram.findOne({
-    include: {
-      model: EducationProgramImage,
-      all: true,
-      required: false,
-      where: {
-        is_active: true
+    include: [
+      {
+        model: EducationProgramType,
+        require: true,
+        where: { is_active: true }
+      },
+      {
+        model: EducationProgramImage,
+        require: true,
+        where: { is_active: true }
       }
-    },
+    ],
     where: {
       id: req.params.id,
       is_active: true
@@ -189,10 +204,10 @@ exports.listComment = async (req, res, next) => {
   EducationProgramComment.findAndCountAll({
     include: [{
       model: User,
-      attributes:['name', 'email', 'id'],
-      require:true
+      attributes: ['name', 'email', 'id'],
+      require: true
     }],
-    attributes:['id','comment', 'createdAt'],
+    attributes: ['id', 'comment', 'createdAt'],
     where: {
       is_active: true
     },

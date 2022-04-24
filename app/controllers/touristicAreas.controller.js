@@ -112,7 +112,18 @@ exports.list = async (req, res, next) => {
   }
 
   const { count, rows } = await TouristicArea.findAndCountAll({
-    include: [TypeTouristArea],
+    include: [
+      {
+        model: TypeTouristArea,
+        require: true,
+        where: { is_active: true }
+      },
+      {
+        model: TouristicAreaImage,
+        require: true,
+        where: { is_active: true }
+      }
+    ],
     where: where,
     offset: req.query.page * req.query.size,
     limit: req.query.size
@@ -131,14 +142,18 @@ exports.list = async (req, res, next) => {
 
 exports.find = async (req, res, next) => {
   const result = await TouristicArea.findOne({
-    include: {
-      model: TouristicAreaImage,
-      all: true,
-      required: false,
-      where: {
-        is_active: true
+    include: [
+      {
+        model: TypeTouristArea,
+        require: true,
+        where: { is_active: true }
+      },
+      {
+        model: TouristicAreaImage,
+        require: true,
+        where: { is_active: true }
       }
-    },
+    ],
     where: {
       id: req.params.id,
       is_active: true

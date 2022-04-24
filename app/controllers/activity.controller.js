@@ -121,7 +121,28 @@ exports.list = async (req, res, next) => {
   }
 
   const { count, rows } = await Activity.findAndCountAll({
-    include: [ActivityType, Difficulty, Accessibility],
+    include: [
+      {
+        model: ActivityType,
+        require: true,
+        where: { is_active: true }
+      },
+      {
+        model: Difficulty,
+        require: true,
+        where: { is_active: true }
+      },
+      {
+        model: Accessibility,
+        require: true,
+        where: { is_active: true }
+      },
+      {
+        model: ActivityImage,
+        require: true,
+        where: { is_active: true }
+      }
+    ],
     where: where,
     offset: req.query.page * req.query.size,
     limit: req.query.size
@@ -140,9 +161,28 @@ exports.list = async (req, res, next) => {
 
 exports.find = async (req, res, next) => {
   const result = await Activity.findOne({
-    include: {
-      model: ActivityImage
-    },
+    include: [
+      {
+        model: ActivityType,
+        require: true,
+        where: { is_active: true }
+      },
+      {
+        model: Difficulty,
+        require: true,
+        where: { is_active: true }
+      },
+      {
+        model: Accessibility,
+        require: true,
+        where: { is_active: true }
+      },
+      {
+        model: ActivityImage,
+        require: true,
+        where: { is_active: true }
+      }
+    ],
     where: {
       id: req.params.id,
       is_active: true
@@ -186,13 +226,13 @@ exports.listComment = async (req, res, next) => {
   ActivityComment.findAndCountAll({
     include: [{
       model: User,
-      attributes:['name', 'email', 'id'],
-      require:true
+      attributes: ['name', 'email', 'id'],
+      require: true
     }],
     where: {
       is_active: true
     },
-    attributes:['id','comment', 'createdAt'],
+    attributes: ['id', 'comment', 'createdAt'],
     offset: req.query.page * req.query.size,
     limit: req.query.size
   }).then(result => {
