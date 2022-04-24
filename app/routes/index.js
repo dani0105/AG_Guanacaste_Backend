@@ -29,15 +29,15 @@ router.use('/auth', authRoute);
 router.use('/upload', uploadController.upload);
 
 router.use('/touristic-areas', touristicAreasRoute);
-router.use('/types-tourist-area', resourceMiddleware("Type Tourist Area"), authMiddleware, typesTouristAreaRoute);
+router.use('/types-tourist-area', typesTouristAreaRoute);
 
 router.use('/activities', activitiesRoute);
-router.use('/difficulties', resourceMiddleware("Difficulties"), authMiddleware, difficultiesRoute);
-router.use('/accessibilities', resourceMiddleware("Accessibilities"), authMiddleware, accessibilitiesRoute);
-router.use('/activity-types', resourceMiddleware("Activity Types"), authMiddleware, activityTypesRoute);
+router.use('/difficulties', difficultiesRoute);
+router.use('/accessibilities',accessibilitiesRoute);
+router.use('/activity-types', activityTypesRoute);
 
 router.use('/education-programs', educationProgramRoute);
-router.use('/education-program-types', resourceMiddleware("Education Program Types"), authMiddleware, educationProgramTypesRoute);
+router.use('/education-program-types',educationProgramTypesRoute);
 
 router.use('/users', resourceMiddleware("Users"), authMiddleware, usersRoute);
 router.use('/roles', resourceMiddleware("Roles"), authMiddleware, rolesRoute);
