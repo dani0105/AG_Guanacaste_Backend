@@ -191,8 +191,7 @@ exports.find = async (req, res, next) => {
       },
       {
         model: ActivityImage,
-        require: true,
-        where: { is_active: true }
+        require: false,
       }
     ],
     where: {

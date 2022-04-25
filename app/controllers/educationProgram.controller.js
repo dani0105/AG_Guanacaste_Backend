@@ -161,8 +161,6 @@ exports.find = async (req, res, next) => {
       },
       {
         model: EducationProgramImage,
-        require: true,
-        where: { is_active: true }
       }
     ],
     where: {
