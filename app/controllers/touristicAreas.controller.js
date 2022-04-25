@@ -208,7 +208,8 @@ exports.listComment = async (req, res, next) => {
     }],
     attributes: ['id', 'comment', 'createdAt'],
     where: {
-      is_active: true
+      is_active: true,
+      id_touristic_area: req.params.id_touristic_area
     },
     offset: req.query.page * req.query.size,
     limit: req.query.size

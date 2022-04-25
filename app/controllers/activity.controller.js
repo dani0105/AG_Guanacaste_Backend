@@ -242,7 +242,8 @@ exports.listComment = async (req, res, next) => {
       require: true
     }],
     where: {
-      is_active: true
+      is_active: true,
+      id_activity: req.params.id_activity
     },
     attributes: ['id', 'comment', 'createdAt'],
     offset: req.query.page * req.query.size,
