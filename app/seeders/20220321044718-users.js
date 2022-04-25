@@ -8,7 +8,8 @@ module.exports = {
     let date = new Date();
     // insert initial Admin
     return queryInterface.bulkInsert('users', [
-      { name: "Super Admin", email: "admin@email.com", password: password, id_rol: 1, created_at: date, updated_at: date }
+      { name: "Super Admin", email: "admin@email.com", password: password, id_rol: 1, created_at: date, updated_at: date },
+      { name: "User", email: "user@email.com", password: password, id_rol: 2, created_at: date, updated_at: date }
     ]);
   },
 

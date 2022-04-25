@@ -154,6 +154,7 @@ exports.list = async (req, res, next) => {
         require: false,
       }
     ],
+    distinct: true,
     where: where,
     offset: req.query.page * req.query.size,
     limit: req.query.size
