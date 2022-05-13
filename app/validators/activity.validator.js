@@ -5,6 +5,10 @@ const Accessibility = require('../models').accessibility;
 const ActivityType = require('../models').activity_type;
 
 validateGeom = (value, { req }) => {
+  if(typeof(value) == 'string'){
+    value = JSON.parse(value);
+  }
+  
   return geoValidator.valid(value);
 }
 
@@ -109,6 +113,9 @@ exports.list = [
   check('id_accessibility')
     .exists().optional({ checkFalsy: true }).withMessage('exists')
     .isNumeric().toInt().withMessage("isNumeric"),
+  check('geom')
+    .exists().optional({ checkFalsy: true }).withMessage('exists')
+    .custom(validateGeom).withMessage('isGeom'),
 ]
 
 exports.find = [

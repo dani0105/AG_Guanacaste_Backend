@@ -112,63 +112,85 @@ exports.update = async (req, res, next) => {
 }
 
 exports.list = async (req, res, next) => {
-  let where = { is_active: true };
+  try {
 
-  if (req.query.filter) {
-    where.name = {
-      [Sequelize.Op.iLike]: `%${req.query.filter}%`
-    };
-  }
 
-  if (req.query.id_activity_type) {
-    where.id_activity_type = req.query.id_activity_type;
-  }
+    let where = { is_active: true };
 
-  if (req.query.id_difficulty) {
-    where.id_difficulty = req.query.id_difficulty;
-  }
-
-  if (req.query.id_accessibility) {
-    where.id_accessibility = req.query.id_accessibility;
-  }
-
-  const { count, rows } = await Activity.findAndCountAll({
-    include: [
-      {
-        model: ActivityType,
-        require: true,
-        where: { is_active: true }
-      },
-      {
-        model: Difficulty,
-        require: true,
-        where: { is_active: true }
-      },
-      {
-        model: Accessibility,
-        require: true,
-        where: { is_active: true }
-      },
-      {
-        model: ActivityImage,
-        require: false,
-      }
-    ],
-    distinct: true,
-    where: where,
-    offset: req.query.page * req.query.size,
-    limit: req.query.size
-  });
-
-  res.status(HttpStatus.OK).json({
-    success: true,
-    data: rows,
-    metadata: {
-      page: req.query.page,
-      size: req.query.size,
-      count: count
+    if (req.query.filter) {
+      where.name = {
+        [Sequelize.Op.iLike]: `%${req.query.filter}%`
+      };
     }
-  })
+
+    if (req.query.id_activity_type) {
+      where.id_activity_type = req.query.id_activity_type;
+    }
+
+    if (req.query.id_difficulty) {
+      where.id_difficulty = req.query.id_difficulty;
+    }
+
+    if (req.query.id_accessibility) {
+      where.id_accessibility = req.query.id_accessibility;
+    }
+
+    if (req.query.geom) {
+      //ST_GeomFromGeoJSON
+      let geomWhere = Sequelize.where(
+        Sequelize.fn('ST_Distance', Sequelize.col('geom'), Sequelize.fn('ST_GeomFromGeoJSON', req.query.geom)), {
+        [Sequelize.Op.lte]: 1,
+      }
+      )
+      where = {
+        ...where, geomWhere
+      }
+
+    }
+
+    const { count, rows } = await Activity.findAndCountAll({
+      include: [
+        {
+          model: ActivityType,
+          require: true,
+          where: { is_active: true }
+        },
+        {
+          model: Difficulty,
+          require: true,
+          where: { is_active: true }
+        },
+        {
+          model: Accessibility,
+          require: true,
+          where: { is_active: true }
+        },
+        {
+          model: ActivityImage,
+          require: false,
+        }
+      ],
+      distinct: true,
+      where: where,
+      offset: req.query.page * req.query.size,
+      limit: req.query.size
+    });
+
+    res.status(HttpStatus.OK).json({
+      success: true,
+      data: rows,
+      metadata: {
+        page: req.query.page,
+        size: req.query.size,
+        count: count
+      }
+    })
+  } catch (e) {
+    console.log(e);
+    res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+      success: false
+    })
+  }
 }
 
 exports.find = async (req, res, next) => {
@@ -226,7 +248,8 @@ exports.createComment = async (req, res, next) => {
     id_user: req.body.id_user
   }).then(result => {
     res.status(HttpStatus.OK).json({
-      success: true
+      success: true,
+      data: result
     })
   }).catch(error => {
     next(new BaseError('Invalid', HttpStatus.BAD_REQUEST, req.polyglot.t("message.creationError"), true))

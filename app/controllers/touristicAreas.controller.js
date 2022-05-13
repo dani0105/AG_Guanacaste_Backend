@@ -190,7 +190,8 @@ exports.createComment = async (req, res, next) => {
     id_user: req.body.id_user
   }).then(result => {
     res.status(HttpStatus.OK).json({
-      success: true
+      success: true,
+      data: result
     })
   }).catch(error => {
     next(new BaseError('Invalid', HttpStatus.BAD_REQUEST, req.polyglot.t("message.creationError"), true))
