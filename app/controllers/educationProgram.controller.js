@@ -195,7 +195,8 @@ exports.createComment = async (req, res, next) => {
     id_user: req.body.id_user
   }).then(result => {
     res.status(HttpStatus.OK).json({
-      success: true
+      success: true,
+      data: result
     })
   }).catch(error => {
     next(new BaseError('Invalid', HttpStatus.BAD_REQUEST, req.polyglot.t("message.creationError"), true))
@@ -203,6 +204,7 @@ exports.createComment = async (req, res, next) => {
 }
 
 exports.listComment = async (req, res, next) => {
+  console.log("Herllo");
   EducationProgramComment.findAndCountAll({
     include: [{
       model: User,
@@ -227,7 +229,7 @@ exports.listComment = async (req, res, next) => {
       }
     })
   }).catch(error => {
-    next(new BaseError('Invalid', HttpStatus.BAD_REQUEST, req.polyglot.t("message.creationError"), true))
+    next(new BaseError('Invalid', HttpStatus.BAD_REQUEST, req.polyglot.t("message.listingError"), true))
   })
 }
 
