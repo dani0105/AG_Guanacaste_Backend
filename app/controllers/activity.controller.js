@@ -134,18 +134,16 @@ exports.list = async (req, res, next) => {
     if (req.query.id_accessibility) {
       where.id_accessibility = req.query.id_accessibility;
     }
-
     if (req.query.geom) {
       //ST_GeomFromGeoJSON
       let geomWhere = Sequelize.where(
         Sequelize.fn('ST_Distance', Sequelize.col('geom'), Sequelize.fn('ST_GeomFromGeoJSON', req.query.geom)), {
-        [Sequelize.Op.lte]: 1,
+        [Sequelize.Op.lte]: 0.1, // 10 kilometros
       }
       )
       where = {
         ...where, geomWhere
       }
-
     }
 
     const { count, rows } = await Activity.findAndCountAll({
