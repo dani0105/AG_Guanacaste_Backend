@@ -5,5 +5,6 @@
   "creationError": "Unable to create record",
   "deletingError": "Unable to delete record",
   "updatingError": "Unable to update record",
-  "fileUpload": "Unable to upload image"
+  "fileUpload": "Unable to upload image",
+  "listingError": "Unable to get records"
 }

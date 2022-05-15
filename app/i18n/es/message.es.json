@@ -5,5 +5,6 @@
   "creationError": "No se pudo crear el registro",
   "deletingError": "No se pudo borrar el registro",
   "updatingError": "No se pudo actualizar el registro",
-  "fileUpload": "No se pudo subir el archivo"
+  "fileUpload": "No se pudo subir el archivo",
+  "listingError": "No se pudo conseguir los registros"
 }
